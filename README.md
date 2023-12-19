@@ -1,6 +1,7 @@
 # Only modified tile_dataset model
-added Attention Layer, ANEE Enocoder(from DNNPerf), Jaccard coeficient, and Early-Late join.
-Jaccard coeficient and Early-Late join by JongEun Park
+### Added Attention Layer, ANEE Enocoder(from DNNPerf), Jaccard coeficient, and Early-Late join.
+##### Jaccard coeficient and Early-Late join by JongEun Park
+
 
 
 # TpuGraphs: A Performance Prediction Dataset on Large Tensor Computational Graphs
