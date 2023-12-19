@@ -394,11 +394,11 @@ def get_npz_dataset(
   """
   npz_dataset = NpzDataset(
       train=get_npz_split(
-          os.path.join(root_path, 'train'), min_configs=min_train_configs,
+          os.path.join('/content/data_firsttry/npz/tile/xla/', 'train'), min_configs=min_train_configs,
           cache_dir=cache_dir),
       validation=get_npz_split(
-          os.path.join(root_path, 'valid'), cache_dir=cache_dir),
+          os.path.join('/content/data_firsttry/npz/tile/xla/', 'valid'), cache_dir=cache_dir),
       test=get_npz_split(
-          os.path.join(root_path, 'test'), cache_dir=cache_dir))
+          os.path.join('/content/data_firsttry/npz/tile/xla/', 'test'), cache_dir=cache_dir))
   npz_dataset.normalize()
   return npz_dataset

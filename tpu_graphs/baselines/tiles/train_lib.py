@@ -34,7 +34,7 @@ import tqdm
 
 
 _DATA_ROOT = flags.DEFINE_string(
-    'data_root', '~/data/tpugraphs/npz/tile/xla',
+    'data_root', '/content/data_firsttry/npz/tile/xla',  # --data_root=값 형식으로 입력, 두번째 인자는 기본값. 
     'Root directory containing dataset. It must contain subdirectories '
     '{train, test, validation}, each having many .npz files')
 _CACHE_DIR = flags.DEFINE_string(
@@ -106,7 +106,13 @@ def train(args: train_args.TrainArgs):
   model_class = getattr(models, args.model)
   model_kwargs = json.loads(args.model_kwargs_json)
   num_ops = dataset_partitions.num_ops
-  model = model_class(num_configs, num_ops, **model_kwargs)
+  if 'hidden_dim' not in model_kwargs:
+    model_kwargs['hidden_dim'] = args.hidden_dim
+  if 'op_embed_dim' not in model_kwargs:
+      model_kwargs['op_embed_dim'] = args.op_embed_dim
+
+  model = model_class(num_configs=num_configs, num_ops=num_ops,**model_kwargs)
+
 
   loss = metrics.CombinedLoss(metrics.parse_loss_str(args.losses))
   opt = tf.keras.optimizers.Adam(

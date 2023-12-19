@@ -20,9 +20,10 @@ import os
 import time
 from typing import NamedTuple
 
+
 from absl import flags
 
-_EPOCHS = flags.DEFINE_integer('epochs', 100, 'number of train epochs.')
+_EPOCHS = flags.DEFINE_integer('epochs', 500, 'number of train epochs.')
 _EARLY_STOP = flags.DEFINE_integer(
     'early_stop', 20,
     'If held-out validation does not improve after this many epochs, then '
@@ -33,7 +34,7 @@ _LOSSES = flags.DEFINE_string(
     'losses', 'ListMLELoss:1,MSE:0.02',
     'Comma-separated list of "lossName:lossWeight", per `metrics.py`.')
 _LEARNING_RATE = flags.DEFINE_float(
-    'lr', 1e-3, 'Learning rate for Adam optimizer.')
+    'lr', 1e-4, 'Learning rate for Adam optimizer.')
 _CLIP_NORM = flags.DEFINE_float(
     'clip_norm', 1e-3, 'Max L2 norm of gradient per tensor.')
 _NUM_CONFIGS = flags.DEFINE_integer(
@@ -70,6 +71,10 @@ _VALIDATE_BATCHES = flags.DEFINE_integer(
     'on this many batches')
 _RUN_ID = flags.DEFINE_string(
     'run_id', '', 'Can be used for tagging the experiment.')
+  
+# Add new flags for hidden_dim and op_embed_dim
+_HIDDEN_DIM = flags.DEFINE_integer('hidden_dim', 64, 'Dimension of the hidden layer.')
+_OP_EMBED_DIM = flags.DEFINE_integer('op_embed_dim', 64, 'Dimension of the operation embedding.')
 
 
 class TrainArgs(NamedTuple):
@@ -98,6 +103,10 @@ class TrainArgs(NamedTuple):
 
   # To run multiple experiments.
   run_id: str
+
+  ###############
+  hidden_dim: int
+  op_embed_dim: int
 
   def compute_hash(self) -> str:
     """Returns psuedo-random string that uniquely identifies flag arguments."""
@@ -132,4 +141,6 @@ def get_args() -> TrainArgs:
       clip_norm=_CLIP_NORM.value, model=_MODEL.value,
       model_kwargs_json=_MODEL_KWARGS_JSON.value, test_mode=_TEST_MODE.value,
       out_dir=_OUTPUT_DIR.value, validate_batches=_VALIDATE_BATCHES.value,
-      results_csv=_get_results_csv_or_default(), run_id=_RUN_ID.value)
+      results_csv=_get_results_csv_or_default(), run_id=_RUN_ID.value, 
+      hidden_dim=_HIDDEN_DIM.value, op_embed_dim=_OP_EMBED_DIM.value)
+
